@@ -40,7 +40,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   let file;
   try {
     const { data } = await axios.get(
-      `http://localhost:8800/api/files/${id}`
+      `${process.env.API_BASE_ENDPOINT_CLIENT}api/files/${id}`
     );
     file = data;
   } catch (error) {

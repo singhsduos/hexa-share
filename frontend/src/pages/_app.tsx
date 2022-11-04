@@ -3,7 +3,7 @@ import axios from "axios";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
-axios.defaults.baseURL = "http://localhost:8800/";
+axios.defaults.baseURL = `${process.env.API_BASE_ENDPOINT_CLIENT}`;
 // Alert Message CSS
 const options = {
   timeout: 5000,
