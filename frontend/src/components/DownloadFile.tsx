@@ -1,4 +1,8 @@
+import { useAlert } from "react-alert";
+
 const DownloadFile = ({ downloadPageLink }) => {
+  const alert = useAlert();
+
   return (
     <div className="p-1">
       <h1 className="my-2 text-lg font-medium">
@@ -11,7 +15,7 @@ const DownloadFile = ({ downloadPageLink }) => {
           src="/images/copy.png"
           alt=""
           className="object-contain w-8 h-8 cursor-pointer"
-          onClick={() => navigator.clipboard.writeText(downloadPageLink)}
+          onClick={() => { navigator.clipboard.writeText(downloadPageLink);   alert.success("Successfully, Link Copied!");}}
         />
       </div>
     </div>
