@@ -28,6 +28,7 @@ export default function Home() {
     }
   };
 
+  
     const resetComponent = () => {
       setFile(null);
       setDownloadPageLink(null);
