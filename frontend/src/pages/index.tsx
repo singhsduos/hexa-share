@@ -1,5 +1,6 @@
 import DownloadFile from "@components/DownloadFile";
 import DropZoneComponent from "@components/DropZoneComponent";
+import EmailForm from "@components/EmailForm";
 import Heading from "@components/Heading";
 import RenderFile from "@components/RenderFile";
 import axios from "axios";
@@ -78,6 +79,7 @@ export default function Home() {
         {downloadPageLink && (
           <div className="p-2 text-center">
             <DownloadFile downloadPageLink={downloadPageLink} />
+            <EmailForm id={id} />
             <button className="button" onClick={resetComponent}>
               Upload New File
             </button>
