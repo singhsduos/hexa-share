@@ -1,3 +1,4 @@
+import DownloadFile from "@components/DownloadFile";
 import DropZoneComponent from "@components/DropZoneComponent";
 import Heading from "@components/Heading";
 import RenderFile from "@components/RenderFile";
@@ -27,12 +28,18 @@ export default function Home() {
     }
   };
 
+    const resetComponent = () => {
+      setFile(null);
+      setDownloadPageLink(null);
+      setUploadState("Upload");
+    };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Heading />
       <div className="flex flex-col items-center justify-center bg-gray-800 shadow-xl w-96 rounded-xl">
         {/* Drag and Drop Componenet */}
-        <DropZoneComponent setFile={setFile} />
+        {!downloadPageLink && <DropZoneComponent setFile={setFile} />}
 
         {/* renderfile */}
         {file && (
@@ -46,7 +53,7 @@ export default function Home() {
         )}
 
         {/* upload button */}
-        {file && (
+        {!downloadPageLink && file && (
           <button
             disabled={
               uploadState === "Uploading" || uploadState === "Uploaded"
@@ -64,6 +71,16 @@ export default function Home() {
           >
             {uploadState}
           </button>
+        )}
+
+        {/* Download Page */}
+        {downloadPageLink && (
+          <div className="p-2 text-center">
+            <DownloadFile downloadPageLink={downloadPageLink} />
+            <button className="button" onClick={resetComponent}>
+              Upload New File
+            </button>
+          </div>
         )}
       </div>
     </div>
