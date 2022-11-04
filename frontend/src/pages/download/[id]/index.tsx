@@ -40,7 +40,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   let file;
   try {
     const { data } = await axios.get(
-      `${process.env.API_BASE_ENDPOINT_CLIENT}api/files/${id}`
+      `https://hexashare.onrender.com/api/files/${id}`
     );
     file = data;
   } catch (error) {

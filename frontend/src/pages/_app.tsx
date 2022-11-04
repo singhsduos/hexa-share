@@ -3,7 +3,7 @@ import axios from "axios";
 import { transitions, positions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
-axios.defaults.baseURL = `${process.env.API_BASE_ENDPOINT_CLIENT}`;
+axios.defaults.baseURL = "https://hexashare.onrender.com/";
 // Alert Message CSS
 const options = {
   timeout: 5000,
