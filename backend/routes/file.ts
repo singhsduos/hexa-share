@@ -136,7 +136,7 @@ router.post("/email", async (req, res) => {
         if (error) {
             console.log(error);
             return res.status(500).json({
-                message: "server error :(",
+                message: "Mail not sent, due to server error :(",
             });
         }
 
@@ -145,7 +145,7 @@ router.post("/email", async (req, res) => {
 
         await file.save();
         return res.status(200).json({
-            message: "Email Sent",
+            message: "Email Sent :)",
         });
     });
 
