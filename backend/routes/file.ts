@@ -3,8 +3,8 @@ import multer from 'multer';
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import File from "../models/File";
 import https from "https";
-import nodemailer from "nodemailer";
 import createEmailTemplate from "../utils/createEmailTemplate";
+import sgMail from "@sendgrid/mail";
 
 const router = express.Router();
 
@@ -103,20 +103,7 @@ router.post("/email", async (req, res) => {
     }
 
 
-    // 3. create transporter
-    let transporter = nodemailer.createTransport({
-        // @ts-ignore
-        host: process.env.SENDINBLUE_SMTP_HOST!,
-        port: process.env.SENDINBLUE_SMTP_PORT,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: process.env.SENDINBLUE_SMTP_USER, // generated ethereal user
-            pass: process.env.SENDINBLUE_SMTP_PASSWORD, // generated ethereal password
-        },
-    });
-
-
-    //  4. prepare the e-mail data
+    //  3. prepare the e-mail data
     const { filename, sizeInBytes } = file;
 
     const fileSize = `${(Number(sizeInBytes) / (1024 * 1024)).toFixed(2)} MB `;
@@ -131,23 +118,24 @@ router.post("/email", async (req, res) => {
     };
 
 
-    //  5. send mail using the transporter
-    transporter.sendMail(mailOptions, async (error, info) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).json({
-                message: "Mail not sent, due to server error :(",
+    //  4. send mail using the SendGrid
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
+    sgMail
+        .send(mailOptions, false, async (error, info) => {
+            if (error) {
+                console.log(error);
+                return res.status(500).json({
+                    message: "Mail not sent, due to server error :(",
+                });
+            }
+
+            file.sender = emailFrom;
+            file.receiver = emailTo;
+            await file.save();
+            return res.status(200).json({
+                message: "Email Sent :)",
             });
-        }
-
-        file.sender = emailFrom;
-        file.receiver = emailTo;
-
-        await file.save();
-        return res.status(200).json({
-            message: "Email Sent :)",
         });
-    });
 
 });
 
